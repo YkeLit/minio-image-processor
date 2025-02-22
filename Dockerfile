@@ -12,7 +12,7 @@ FROM minio/minio:latest AS minio
 FROM ubuntu:22.04
 RUN apt-get update && apt-get install -y supervisor libgd-dev
 COPY --from=nginx-builder /usr/local/nginx /usr/local/nginx
-COPY --from=minio /minio /usr/local/bin/minio
+COPY --from=minio /usr/bin/minio /usr/local/bin/minio
 COPY nginx.conf /usr/local/nginx/conf/
 COPY supervisord.conf /etc/supervisor/conf.d/
 
