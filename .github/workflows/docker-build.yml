@@ -1,0 +1,44 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches: [ "main" ]  # 触发分支
+    tags: [ 'v*.*.*' ]    # 标签触发规则（可选）
+
+env:
+  REGISTRY: registry.cn-chengdu.aliyuncs.com  # 阿里云容器镜像地址
+  NAMESPACE: yk-tools                   # 阿里云命名空间
+  REPOSITORY: minio-image-processor                  # 仓库名称
+  IMAGE_TAG: ${{ github.sha }}                # 默认使用 Git Commit SHA 作为标签
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPOSITORY }}:latest
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Add Latest Tag on Release
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          docker pull ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }} ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPOSITORY }}:latest
+          docker push ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.REPOSITORY }}:latest
