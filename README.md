@@ -4,9 +4,9 @@
 
 ## ✨ 功能特性
 
-- **图片存储**  
+- **图片存储**
   MinIO 提供高可用 S3 兼容存储服务
-- **动态处理**  
+- **动态处理**
   Nginx 集成 `ngx_http_image_filter_module` 模块，支持：
   - 实时图片压缩 (`quality=85`)
   - 按尺寸裁剪 (`?width=200&height=200`)
@@ -18,7 +18,7 @@
 
 ```bash
 # 克隆项目
-git clone 
+git clone
 cd minio-nginx-image-processing
 
 # 启动容器
@@ -105,16 +105,16 @@ curl -H "Accept: image/webp" http://localhost/processed/photo.jpg -o output.webp
 
 ### 常见问题
 
-1. **图片处理返回 415 错误**  
-   ⇒ 确认原始图片格式为 JPG/PNG  
+1. **图片处理返回 415 错误**
+   ⇒ 确认原始图片格式为 JPG/PNG
    ⇒ 检查 `image_filter_buffer` 是否足够大
 
-2. **MinIO 上传失败**  
-   ⇒ 验证容器端口 9000 是否暴露  
+2. **MinIO 上传失败**
+   ⇒ 验证容器端口 9000 是否暴露
    ⇒ 确认存储桶策略允许写入
 
-3. **Nginx 模块未生效**  
-   ⇒ 运行 `docker exec <container> nginx -V` 确认编译参数  
+3. **Nginx 模块未生效**
+   ⇒ 运行 `docker exec <container> nginx -V` 确认编译参数
    ⇒ 检查是否安装 libgd 依赖
 
 

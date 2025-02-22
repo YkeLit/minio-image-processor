@@ -10,13 +10,17 @@ RUN wget https://nginx.org/download/nginx-1.25.1.tar.gz && \
 FROM minio/minio:latest AS minio
 
 FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y supervisor libgd-dev
+RUN apt-get update \
+    && apt-get install -y supervisor libgd-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir /data
 COPY --from=nginx-builder /usr/local/nginx /usr/local/nginx
 COPY --from=minio /usr/bin/minio /usr/local/bin/minio
 COPY --from=minio /usr/bin/mc /usr/local/bin/mc
 COPY nginx.conf /usr/local/nginx/conf/
 COPY supervisord.conf /etc/supervisor/conf.d/
 
-EXPOSE 80 9000
+EXPOSE 80 9000 9001
 CMD ["supervisord", "-n"]
 
