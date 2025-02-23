@@ -14,7 +14,8 @@ RUN apt-get update \
     && apt-get install -y supervisor libgd-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && mkdir /data
+    && mkdir /data \
+    && mkdir /var/log/nginx
 COPY --from=nginx-builder /usr/local/nginx /usr/local/nginx
 COPY --from=minio /usr/bin/minio /usr/local/bin/minio
 COPY --from=minio /usr/bin/mc /usr/local/bin/mc
