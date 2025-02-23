@@ -244,7 +244,6 @@ curl -H "Accept: image/webp" http://localhost/processed/photo.jpg -o output.webp
    ```bash
    # 实时查看错误日志
    docker exec <container> tail -f /var/log/nginx/error.log
-
    # 查看特定服务的访问日志
    docker exec <container> tail -f /var/log/nginx/api_access.log
    ```
@@ -264,7 +263,6 @@ curl -H "Accept: image/webp" http://localhost/processed/photo.jpg -o output.webp
    ```bash
    # 实时查看 Nginx 服务日志
    docker exec <container> tail -f /var/log/supervisor/nginx_stderr.log
-
    # 实时查看 MinIO 服务日志
    docker exec <container> tail -f /var/log/supervisor/minio_stderr.log
    ```
