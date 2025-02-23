@@ -24,7 +24,9 @@ cd minio-nginx-image-processing
 # 启动容器
 docker run -d \
   -p 80:80 \
-  -p 9000:9000 \
+  -p 9000:9000 \    # MinIO API
+  -p 9001:9001 \    # MinIO 控制台
+  -v /data:/data \  # 持久化存储
   -e MINIO_ROOT_USER=admin \
   -e MINIO_ROOT_PASSWORD=YourStrongPassword \
   registry.cn-hangzhou.aliyuncs.com/your_ns/your_repo:latest
@@ -43,11 +45,12 @@ docker pull image-name
 # 运行容器（自定义存储目录）
 docker run -d \
   -p 80:80 \
-  -p 9000:9000 \
-  -v /data/minio:/data \
+  -p 9000:9000 \    # MinIO API
+  -p 9001:9001 \    # MinIO 控制台
+  -v /data:/data \  # 持久化存储
   -e MINIO_ROOT_USER=admin \
   -e MINIO_ROOT_PASSWORD=YourStrongPassword \
-  minio-image-processor:latest
+  registry.cn-hangzhou.aliyuncs.com/your_ns/your_repo:latest
 ```
 
 ## 🔧 配置说明
@@ -87,7 +90,7 @@ curl -X PUT -T photo.jpg \
 ### 获取原始图片
 
 ```bash
-curl http://localhost/minio/my-bucket/photo.jpg -o original.jpg
+curl http://localhost/api/my-bucket/photo.jpg -o original.jpg
 ```
 
 ### 动态处理图片
