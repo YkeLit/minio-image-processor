@@ -58,8 +58,9 @@ docker run -d \
 
 | 变量名                  | 默认值         | 描述                          |
 |-------------------------|----------------|------------------------------|
-| `MINIO_ROOT_USER`       | `minioadmin`   | MinIO 管理员账号             |
-| `MINIO_ROOT_PASSWORD`   | `minioadmin`   | MinIO 管理员密码             |
+| `MINIO_ROOT_USER`       |    | MinIO 管理员账号             |
+| `MINIO_ROOT_PASSWORD`   |    | MinIO 管理员密码             |
+| `MINIO_BROWSER_REDIRECT_URL`   |    | MinIO 控制台监听进入的连接             |
 
 ### Nginx 代理配置
 
