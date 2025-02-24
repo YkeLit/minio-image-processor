@@ -189,7 +189,7 @@ supervisorctl start nginx
 
 ```bash
 curl -X PUT -T photo.jpg \
-  http://localhost:9000/my-bucket/photo.jpg \
+  http://localhost/api/my-bucket/photo.jpg \
   -H "x-amz-date: $(date -u +%Y%m%dT%H%M%SZ)"
 ```
 
@@ -208,7 +208,6 @@ curl "http://localhost/processed/my-bucket/photo.jpg?width=300&height=300" -o re
 # 转换为 WebP 格式（需启用对应模块）
 curl -H "Accept: image/webp" http://localhost/processed/photo.jpg -o output.webp
 ```
-
 
 ## 🛠️ 故障排查
 
